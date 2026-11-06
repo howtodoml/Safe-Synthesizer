@@ -7,7 +7,6 @@ generation:
   num_records: 200
 training:
   pretrained_model: HuggingFaceTB/SmolLM3-3B
-  num_input_records_to_sample: 200
 privacy:
   dp_enabled: false
 replace_pii: null
