@@ -13,7 +13,9 @@ TAG="${2-}"
 case "$TAG" in
   smoke) CFG="$C/berka-smollm3-smoke.yaml"; EXP="$N/smoke/export_check" ;;
   run1|run2|run3) CFG="$C/berka-smollm3-nodp-noeval.yaml"; EXP="$W/nemo_$TAG/export" ;;
-  *) echo "give the step, then smoke, run1, run2 or run3"; exit 1 ;;
+  dpsmoke) CFG="$C/berka-smollm3-dp-smoke.yaml"; EXP="$N/dpsmoke/export_check" ;;
+  dprun1|dprun2|dprun3) CFG="$C/berka-smollm3-dp-noeval.yaml"; EXP="$W/nemo_$TAG/export" ;;
+  *) echo "give the step, then smoke, run1, run2, run3, dpsmoke, dprun1, dprun2 or dprun3"; exit 1 ;;
 esac
 say() { echo "$1 nemo_$STEP $TAG nemo-venv $(TZ=America/Toronto date +%H:%M:%S)${2-}"; }
 say START

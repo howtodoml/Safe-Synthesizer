@@ -1,5 +1,7 @@
 """Tests for the Berka join and split-back. Run with pytest, or as a script."""
 
+from pathlib import Path
+
 import pandas as pd
 
 from join_berka import join_tables
@@ -53,6 +55,18 @@ def test_first_row_wins_and_is_counted():
     assert report["accounts_whose_parent_values_disagree"] == 2
     assert report["accounts_disagreeing_by_column"] == {"frequency": 1, "account_date": 1}
 
+
+
+def test_dp_configs_change_only_dp_enabled():
+    here = Path(__file__).resolve().parent
+    pairs = [("berka-smollm3-dp-noeval.yaml", "berka-smollm3-nodp-noeval.yaml"),
+             ("berka-smollm3-dp-smoke.yaml", "berka-smollm3-smoke.yaml")]
+    for dp, nodp in pairs:
+        a = (here / dp).read_text().splitlines()
+        b = (here / nodp).read_text().splitlines()
+        assert len(a) == len(b)
+        changed = [(x, y) for x, y in zip(a, b) if x != y]
+        assert changed == [("  dp_enabled: true", "  dp_enabled: false")]
 
 if __name__ == "__main__":
     for name, fn in list(globals().items()):

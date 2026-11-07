@@ -1,0 +1,15 @@
+data:
+  group_training_examples_by: account_id
+  order_training_examples_by: trans_date
+  holdout: 0
+  random_state: 42
+generation:
+  num_records: 200
+training:
+  pretrained_model: HuggingFaceTB/SmolLM3-3B
+privacy:
+  dp_enabled: true
+replace_pii: null
+emit_telemetry: false
+evaluation:
+  enabled: false
