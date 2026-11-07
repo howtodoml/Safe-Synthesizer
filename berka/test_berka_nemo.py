@@ -57,13 +57,19 @@ def test_first_row_wins_and_is_counted():
 
 
 
-def test_dp_configs_change_only_dp_enabled():
+def test_dp_configs_change_only_dp_enabled_and_the_threshold():
     here = Path(__file__).resolve().parent
     pairs = [("berka-smollm3-dp-noeval.yaml", "berka-smollm3-nodp-noeval.yaml"),
              ("berka-smollm3-dp-smoke.yaml", "berka-smollm3-smoke.yaml")]
+    added = "  invalid_fraction_threshold: 0.95"
     for dp, nodp in pairs:
         a = (here / dp).read_text().splitlines()
         b = (here / nodp).read_text().splitlines()
+        assert a.count(added) == 1
+        i = a.index(added)
+        assert a[i - 1].startswith("  num_records: ")
+        assert a[: i - 1].count("generation:") == 1 and a[i - 2] == "generation:"
+        a = a[:i] + a[i + 1:]
         assert len(a) == len(b)
         changed = [(x, y) for x, y in zip(a, b) if x != y]
         assert changed == [("  dp_enabled: true", "  dp_enabled: false")]

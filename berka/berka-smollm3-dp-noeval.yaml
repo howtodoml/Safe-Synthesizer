@@ -5,6 +5,7 @@ data:
   random_state: 42
 generation:
   num_records: 16009
+  invalid_fraction_threshold: 0.95
 training:
   pretrained_model: HuggingFaceTB/SmolLM3-3B
 privacy:
